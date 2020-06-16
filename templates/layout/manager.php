@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="robots" content="noindex, noindex, nosnippet, noarchive"/>
+    <meta name="googlebot" content="oindex, noindex, nosnippet, noarchive"/>
 
     <title>TF Manager v4.0.0 - Blank</title>
 
@@ -43,10 +43,6 @@
     </div>
 </div>
 
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-</a>
 <!-- Logout Modal-->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
@@ -81,9 +77,8 @@
         'sb-admin-2.min.js',
         '../vendor/datatables/jquery.dataTables.min.js',
         '../vendor/datatables/dataTables.bootstrap4.min.js',
-        'manager.js'
+        'manager.js',
     ]
 ) ?>
-
 </body>
 </html>

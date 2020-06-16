@@ -1,5 +1,6 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
 
 namespace App\Model\Table;
 
@@ -12,7 +13,7 @@ use Cake\Validation\Validator;
  * ArticleCategories Model
  *
  * @property \App\Model\Table\ArticleCategoriesTable&\Cake\ORM\Association\BelongsTo $ParentArticleCategories
- * @property \App\Model\Table\ArticleCategoriesTable&\Cake\ORM\Association\HasMany $ChildArticleCategories
+ * @property \App\Model\Table\ArticleCategoriesTable&\Cake\ORM\Association\HasMany   $ChildArticleCategories
  *
  * @method \App\Model\Entity\ArticleCategory newEmptyEntity()
  * @method \App\Model\Entity\ArticleCategory newEntity(array $data, array $options = [])
@@ -36,7 +37,8 @@ class ArticleCategoriesTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param  array  $config  The configuration for the Table.
+     *
      * @return void
      */
     public function initialize(array $config): void
@@ -49,21 +51,36 @@ class ArticleCategoriesTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Tree');
+        $this->addBehavior(
+            'Translate',
+            [
+                'fields'                 => ['name', 'slug', 'description'],
+                'defaultLocale'          => 'th_TH',
+                'allowEmptyTranslations' => true,
+            ]
+        );
 
-        $this->belongsTo('ParentArticleCategories', [
-            'className' => 'ArticleCategories',
-            'foreignKey' => 'parent_id',
-        ]);
-        $this->hasMany('ChildArticleCategories', [
-            'className' => 'ArticleCategories',
-            'foreignKey' => 'parent_id',
-        ]);
+        $this->belongsTo(
+            'ParentArticleCategories',
+            [
+                'className'  => 'ArticleCategories',
+                'foreignKey' => 'parent_id',
+            ]
+        );
+        $this->hasMany(
+            'ChildArticleCategories',
+            [
+                'className'  => 'ArticleCategories',
+                'foreignKey' => 'parent_id',
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @param  \Cake\Validation\Validator  $validator  Validator instance.
+     *
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
@@ -93,7 +110,8 @@ class ArticleCategoriesTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @param  \Cake\ORM\RulesChecker  $rules  The rules object to be modified.
+     *
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker

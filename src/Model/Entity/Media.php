@@ -22,6 +22,8 @@ use Josbeir\Filesystem\FileEntityInterface;
  * @property string|null $alt
  * @property string|null $title
  * @property string|null $description
+ * @property int|null $order_index
+ * @property string|null $link_url
  *
  * @property \App\Model\Entity\Client[] $clients
  * @property \App\Model\Entity\Partner[] $partners
@@ -50,6 +52,8 @@ class Media extends Entity implements FileEntityInterface
         'alt' => true,
         'title' => true,
         'description' => true,
+        'order_index' => true,
+        'link_url' => true,
         'clients' => true,
         'partners' => true,
     ];

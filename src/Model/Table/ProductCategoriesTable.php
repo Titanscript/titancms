@@ -13,6 +13,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\ProductCategoriesTable&\Cake\ORM\Association\BelongsTo $ParentProductCategories
  * @property \App\Model\Table\ProductCategoriesTable&\Cake\ORM\Association\HasMany $ChildProductCategories
+ * @property \App\Model\Table\ProductsTable&\Cake\ORM\Association\HasMany $Products
  *
  * @method \App\Model\Entity\ProductCategory newEmptyEntity()
  * @method \App\Model\Entity\ProductCategory newEntity(array $data, array $options = [])
@@ -97,6 +98,10 @@ class ProductCategoriesTable extends Table
         $validator
             ->scalar('description')
             ->allowEmptyString('description');
+
+        $validator
+            ->scalar('body')
+            ->allowEmptyString('body');
 
         return $validator;
     }

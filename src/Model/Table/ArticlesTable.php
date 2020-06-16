@@ -47,9 +47,17 @@ class ArticlesTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior(
+            'Translate',
+            [
+                'fields'                 => ['name', 'slug', 'intro', 'body'],
+                'defaultLocale'          => 'th_TH',
+                'allowEmptyTranslations' => true,
+            ]
+        );
 
         $this->belongsTo('ArticleCategories', [
-            'foreignKey' => 'article_categorie_id',
+            'foreignKey' => 'article_category_id',
         ]);
         $this->hasMany('ArticleAttributeHeaders', [
             'foreignKey' => 'article_id',
@@ -100,7 +108,7 @@ class ArticlesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['article_categorie_id'], 'ArticleCategories'));
+        $rules->add($rules->existsIn(['article_category_id'], 'ArticleCategories'));
 
         return $rules;
     }

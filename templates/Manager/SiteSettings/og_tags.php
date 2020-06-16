@@ -1,4 +1,4 @@
-<h3 class="h3 mb-2 text-gray-800"><?= __('Site settings') ?> - <?= __('Company') ?></h3>
+<h3 class="h3 mb-2 text-gray-800"><?= __('การตั้งค่าเว็บไซต์') ?> - <?= __('OG Tags') ?></h3>
 
 <div class="row">
     <div class="col-12 col-lg-6">
@@ -9,7 +9,7 @@
 
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary"><?= __('Settings information') ?></h6>
+                <h6 class="m-0 font-weight-bold text-primary"><?= __('ข้อมูลการตั้งค่า') ?></h6>
             </div>
             <div class="card-body">
                 <?php foreach ($settings as $setting): ?>
@@ -19,8 +19,8 @@
                 <?php endforeach ?>
             </div>
             <div class="card-footer d-flex justify-content-between">
-                <?= $this->Form->button(__('Save'), ['class' => 'btn btn-primary']) ?>
-                <?= $this->Html->link(__('Cancel'), ['action' => 'site'], ['class' => 'btn btn-link text-muted']) ?>
+                <?= $this->Form->button(__('บันทึก'), ['class' => 'btn btn-primary']) ?>
+                <?= $this->Html->link(__('ยกเลิก'), ['action' => 'site'], ['class' => 'btn btn-link text-muted']) ?>
             </div>
         </div>
         <?= $this->Form->end() ?>

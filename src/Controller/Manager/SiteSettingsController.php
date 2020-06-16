@@ -16,7 +16,8 @@ class SiteSettingsController extends AppController
     public function site()
     {
         $settings = $this->SiteSettings->find()
-            ->where(['key_field like' => 'site_%']);
+            ->where(['key_field like' => 'site_%'])
+            ->orderAsc('key_field');
 
         $fieldsText = [];
         foreach ($settings as $setting) {
@@ -47,7 +48,8 @@ class SiteSettingsController extends AppController
     public function company()
     {
         $settings = $this->SiteSettings->find()
-            ->where(['key_field like' => 'company_%']);
+            ->where(['key_field like' => 'company_%'])
+            ->orderAsc('key_field');
 
         $fieldsText = [];
         foreach ($settings as $setting) {

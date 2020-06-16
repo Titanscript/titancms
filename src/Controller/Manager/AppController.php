@@ -3,6 +3,7 @@
 namespace App\Controller\Manager;
 
 use Cake\Controller\Controller;
+use Cake\I18n\I18n;
 
 class AppController extends Controller
 {
@@ -19,5 +20,7 @@ class AppController extends Controller
         $this->loadComponent('Authentication.Authentication');
 
         $this->viewBuilder()->setLayout('manager');
+
+        I18n::setLocale('th_TH');
     }
 }

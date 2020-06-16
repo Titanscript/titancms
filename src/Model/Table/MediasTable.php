@@ -114,6 +114,14 @@ class MediasTable extends Table
             ->scalar('description')
             ->allowEmptyString('description');
 
+        $validator
+            ->integer('order_index')
+            ->allowEmptyString('order_index');
+
+        $validator
+            ->scalar('link_url')
+            ->allowEmptyString('link_url');
+
         return $validator;
     }
 }

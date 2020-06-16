@@ -16,8 +16,13 @@ use Cake\ORM\Entity;
  * @property string|null $status
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
- * @property int|null $article_categorie_id
+ * @property int|null $article_category_id
  *
+ * @property \App\Model\Entity\ArticlesTitleTranslation $title_translation
+ * @property \App\Model\Entity\ArticlesSlugTranslation $slug_translation
+ * @property \App\Model\Entity\ArticlesIntroTranslation $intro_translation
+ * @property \App\Model\Entity\ArticlesBodyTranslation $body_translation
+ * @property \App\Model\Entity\I18n[] $_i18n
  * @property \App\Model\Entity\ArticleCategory $article_category
  * @property \App\Model\Entity\ArticleAttributeHeader[] $article_attribute_headers
  */
@@ -40,7 +45,12 @@ class Article extends Entity
         'status' => true,
         'created' => true,
         'modified' => true,
-        'article_categorie_id' => true,
+        'article_category_id' => true,
+        'title_translation' => true,
+        'slug_translation' => true,
+        'intro_translation' => true,
+        'body_translation' => true,
+        '_i18n' => true,
         'article_category' => true,
         'article_attribute_headers' => true,
     ];

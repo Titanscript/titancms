@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Controller\Manager;
 
@@ -23,9 +23,10 @@ class ArticlesController extends AppController
      */
     public function index()
     {
-        $articles = $this->Articles->find();
+        $articles   = $this->Articles->find();
+        $statusList = ['active' => __('เผยแพร่'), 'inactive' => __('ไม่เผยแพร่')];
 
-        $this->set(compact('articles'));
+        $this->set(compact('articles', 'statusList'));
     }
 
     /**
@@ -40,17 +41,24 @@ class ArticlesController extends AppController
         if ($this->request->is('post')) {
             $article         = $this->Articles->patchEntity($article, $this->request->getData());
             $article->status = 'active';
-            $article->slug   = preg_replace('/[^A-Za-z0-9ก-๙\-]/u', '-', str_replace('&', '-and-', $article->title));
 
             if ($this->Articles->save($article)) {
+                $attributeHeader = $this->Articles->ArticleAttributeHeaders->newEntity(
+                    [
+                        'name'       => 'images',
+                        'article_id' => $article->id,
+                    ]
+                );
+                $this->Articles->ArticleAttributeHeaders->save($attributeHeader);
+
                 // TODO: implement tags module here
 
-                $this->Flash->success(__('The data has been saved.'));
+                $this->Flash->success(__('บันทึกข้อมูลเรียบร้อย'));
 
                 return $this->redirect(['action' => 'index']);
             }
 
-            $this->Flash->error(__('The data could not be saved. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
         }
 
         $articleCategories = $this->Articles->ArticleCategories->find('list');
@@ -61,45 +69,43 @@ class ArticlesController extends AppController
     /**
      * edit method
      *
-     * @param null $id
+     * @param  null    $id
+     *
+     * @param  string  $locale
      *
      * @return \Cake\Http\Response|null
      */
-    public function edit($id = null)
+    public function edit($id = null, $locale = 'th_TH')
     {
+        if ($locale !== 'th_TH') {
+            $this->Articles->setLocale($locale);
+        }
+
         $article = $this->Articles->get($id);
 
         if ($this->request->is(['post', 'put', 'patch'])) {
-            $article       = $this->Articles->patchEntity($article, $this->request->getData());
-            $article->slug = preg_replace('/[^A-Za-z0-9ก-๙\-]/u', '-', str_replace('&', '-and-', $article->title));
+            $article = $this->Articles->patchEntity($article, $this->request->getData());
 
             if ($this->Articles->save($article)) {
-                $attributeHeader = $this->Articles->ArticleAttributeHeaders->newEntity(
-                    [
-                        'name'       => 'images',
-                        'article_id' => $article->id,
-                    ]
-                );
-                $this->Articles->ArticleAttributeHeaders->save($attributeHeader);
                 // TODO: implement tags module here
 
-                $this->Flash->success(__('The data has been saved.'));
+                $this->Flash->success(__('บันทึกข้อมูลเรียบร้อย'));
 
                 return $this->redirect(['action' => 'index']);
             }
 
-            $this->Flash->error(__('The data could not be saved. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
         }
 
         $articleCategories = $this->Articles->ArticleCategories->find('list');
 
-        $this->set(compact('article', 'articleCategories'));
+        $this->set(compact('article', 'articleCategories', 'locale'));
     }
 
     /**
      * attribute method
      *
-     * @param null $id
+     * @param  null  $id
      */
     public function attribute($id = null)
     {
@@ -114,35 +120,36 @@ class ArticlesController extends AppController
     /**
      * addAttributeHeader method
      *
-     * @param null $id
+     * @param  null  $id
      *
      * @return \Cake\Http\Response|null
      */
     public function addAttributeHeader($id = null)
     {
-        $article = $this->Articles->get(
+        $article         = $this->Articles->get(
             $id,
             [
                 'contain' => [
-                    'ArticleAttributeHeaders', 'ArticleAttributeHeaders.ArticleAttributes'
-                ]
+                    'ArticleAttributeHeaders',
+                    'ArticleAttributeHeaders.ArticleAttributes',
+                ],
             ]
         );
         $attributeHeader = $this->Articles->ArticleAttributeHeaders->newEmptyEntity();
 
         if ($this->request->is('post')) {
-            $data = $this->request->getData();
+            $data            = $this->request->getData();
             $attributeHeader = $this->Articles->ArticleAttributeHeaders->patchEntity($attributeHeader, $data);
 
             $attributeHeader->article_id = $id;
 
             if ($this->Articles->ArticleAttributeHeaders->save($attributeHeader)) {
-                $this->Flash->success(__('The data has been saved.'));
+                $this->Flash->success(__('บันทึกข้อมูลเรียบร้อย'));
 
                 return $this->redirect(['action' => 'attribute', $id]);
             }
 
-            $this->Flash->error(__('The data could not be saved. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
         }
 
         $this->set(compact('article', 'attributeHeader'));
@@ -151,34 +158,35 @@ class ArticlesController extends AppController
     /**
      * editAttributeHeader method
      *
-     * @param null $id
-     * @param null $headerId
+     * @param  null  $id
+     * @param  null  $headerId
      *
      * @return \Cake\Http\Response|null
      */
     public function editAttributeHeader($id = null, $headerId = null)
     {
-        $article = $this->Articles->get(
+        $article         = $this->Articles->get(
             $id,
             [
                 'contain' => [
-                    'ArticleAttributeHeaders', 'ArticleAttributeHeaders.ArticleAttributes'
-                ]
+                    'ArticleAttributeHeaders',
+                    'ArticleAttributeHeaders.ArticleAttributes',
+                ],
             ]
         );
         $attributeHeader = $this->Articles->ArticleAttributeHeaders->get($headerId);
 
         if ($this->request->is(['post', 'put', 'patch'])) {
-            $data = $this->request->getData();
+            $data            = $this->request->getData();
             $attributeHeader = $this->Articles->ArticleAttributeHeaders->patchEntity($attributeHeader, $data);
 
             if ($this->Articles->ArticleAttributeHeaders->save($attributeHeader)) {
-                $this->Flash->success(__('The data has been saved.'));
+                $this->Flash->success(__('บันทึกข้อมูลเรียบร้อย'));
 
                 return $this->redirect(['action' => 'attribute', $id]);
             }
 
-            $this->Flash->error(__('The data could not be saved. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
         }
 
         $this->set(compact('article', 'attributeHeader'));
@@ -187,8 +195,8 @@ class ArticlesController extends AppController
     /**
      * deletedAttributeHeader method
      *
-     * @param null $id
-     * @param null $headerId
+     * @param  null  $id
+     * @param  null  $headerId
      *
      * @return \Cake\Http\Response|null
      */
@@ -199,9 +207,9 @@ class ArticlesController extends AppController
         // $header = $this->Articles->ArticleAttributeHeaders->ArticleAttributes->get($headerId);
 
         if ($this->Articles->ArticleAttributeHeaders->delete($header)) {
-            $this->Flash->success(__('The data has been deleted.'));
+            $this->Flash->success(__('ลบข้อมูลเรียบร้อย'));
         } else {
-            $this->Flash->error(__('The data could not be deleted. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถลบข้อมูลได้ กรุณาลองใหม่'));
         }
 
         return $this->redirect(['action' => 'attribute', $id]);
@@ -210,29 +218,29 @@ class ArticlesController extends AppController
     /**
      * addAttribute method
      *
-     * @param null $id
-     * @param null $headerId
+     * @param  null  $id
+     * @param  null  $headerId
      *
      * @return \Cake\Http\Response|null
      */
     public function addAttribute($id = null, $headerId = null)
     {
-        $article = $this->Articles->get($id, ['contain' => ['ArticleAttributeHeaders', 'ArticleAttributeHeaders.ArticleAttributes']]);
+        $article   = $this->Articles->get($id, ['contain' => ['ArticleAttributeHeaders', 'ArticleAttributeHeaders.ArticleAttributes']]);
         $attribute = $this->Articles->ArticleAttributeHeaders->ArticleAttributes->newEmptyEntity();
 
         if ($this->request->is('post')) {
             $data = $this->request->getData();
 
-            $attribute = $this->Articles->ArticleAttributeHeaders->ArticleAttributes->patchEntity($attribute, $data);
+            $attribute                              = $this->Articles->ArticleAttributeHeaders->ArticleAttributes->patchEntity($attribute, $data);
             $attribute->article_attribute_header_id = $headerId;
 
             if ($this->Articles->ArticleAttributeHeaders->ArticleAttributes->save($attribute)) {
-                $this->Flash->success(__('The data has been saved.'));
+                $this->Flash->success(__('บันทึกข้อมูลเรียบร้อย'));
 
                 return $this->redirect(['action' => 'attribute', $id]);
             }
 
-            $this->Flash->error(__('The data could not be saved. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
         }
 
         $this->set(compact('article', 'attribute'));
@@ -241,8 +249,8 @@ class ArticlesController extends AppController
     /**
      * editAttribute method
      *
-     * @param null $id
-     * @param null $attrId
+     * @param  null  $id
+     * @param  null  $attrId
      *
      * @return \Cake\Http\Response|null
      */
@@ -253,16 +261,16 @@ class ArticlesController extends AppController
         $attribute = $this->Articles->ArticleAttributeHeaders->ArticleAttributes->get($attrId);
 
         if ($this->request->is(['post', 'put', 'patch'])) {
-            $data = $this->request->getData();
+            $data      = $this->request->getData();
             $attribute = $this->Articles->ArticleAttributeHeaders->ArticleAttributes->patchEntity($attribute, $data);
 
             if ($this->Articles->ArticleAttributeHeaders->ArticleAttributes->save($attribute)) {
-                $this->Flash->success(__('The data has been saved.'));
+                $this->Flash->success(__('บันทึกข้อมูลเรียบร้อย'));
 
                 return $this->redirect(['action' => 'attribute', $id]);
             }
 
-            $this->Flash->error(__('The data could not be saved. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
         }
 
         $this->set(compact('article', 'attribute'));
@@ -271,8 +279,8 @@ class ArticlesController extends AppController
     /**
      * deleteAttribute method
      *
-     * @param null $id
-     * @param null $attrId
+     * @param  null  $id
+     * @param  null  $attrId
      *
      * @return \Cake\Http\Response|null
      */
@@ -282,9 +290,9 @@ class ArticlesController extends AppController
         $attribute = $this->Articles->ArticleAttributeHeaders->ArticleAttributes->get($attrId);
 
         if ($this->Articles->ArticleAttributeHeaders->ArticleAttributes->delete($attribute)) {
-            $this->Flash->success(__('The data has been deleted.'));
+            $this->Flash->success(__('ลบข้อมูลเรียบร้อย'));
         } else {
-            $this->Flash->error(__('The data could not be deleted. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถลบข้อมูลได้ กรุณาลองใหม่'));
         }
 
         return $this->redirect(['action' => 'attribute', $id]);
@@ -293,8 +301,8 @@ class ArticlesController extends AppController
     /**
      * addAttributeImage method
      *
-     * @param null $id
-     * @param null $headerId
+     * @param  null  $id
+     * @param  null  $headerId
      *
      * @return \Cake\Http\Response|null
      * @throws \Josbeir\Filesystem\Exception\FilesystemException
@@ -302,7 +310,7 @@ class ArticlesController extends AppController
      */
     public function addAttributeImage($id = null, $headerId = null)
     {
-        $article = $this->Articles->get($id, ['contain' => ['ArticleAttributeHeaders', 'ArticleAttributeHeaders.ArticleAttributes']]);
+        $article   = $this->Articles->get($id, ['contain' => ['ArticleAttributeHeaders', 'ArticleAttributeHeaders.ArticleAttributes']]);
         $attribute = $this->Articles->ArticleAttributeHeaders->ArticleAttributes->newEmptyEntity();
 
         if ($this->request->is('post')) {
@@ -310,11 +318,11 @@ class ArticlesController extends AppController
             $this->loadModel('Medias');
             $this->loadComponent('Utils');
 
-            $fileEntity = $this->getFilesystem()->upload(
+            $fileEntity             = $this->getFilesystem()->upload(
                 $this->request->getData('image'),
                 [
                     'formatter' => 'Entity',
-                    'data' => $this->Medias->newEmptyEntity()
+                    'data'      => $this->Medias->newEmptyEntity(),
                 ]
             );
             $fileEntity->using_type = 'article_image';
@@ -326,17 +334,17 @@ class ArticlesController extends AppController
             $attribute = $this->Articles->ArticleAttributeHeaders->ArticleAttributes->patchEntity($attribute, $data);
 
             $attribute->article_attribute_header_id = $headerId;
-            $attribute->value = $fullBase . $fileEntity->getPath();
-            $attribute->ref_table = 'Medias';
-            $attribute->ref_key = $fileEntity->id;
+            $attribute->value                       = $fullBase . $fileEntity->getPath();
+            $attribute->ref_table                   = 'Medias';
+            $attribute->ref_key                     = $fileEntity->id;
 
             if ($this->Articles->ArticleAttributeHeaders->ArticleAttributes->save($attribute)) {
-                $this->Flash->success(__('The data has been saved.'));
+                $this->Flash->success(__('บันทึกข้อมูลเรียบร้อย'));
 
                 return $this->redirect(['action' => 'attribute', $id]);
             }
 
-            $this->Flash->error(__('The data could not be saved. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
         }
 
         $this->set(compact('article', 'attribute'));
@@ -345,8 +353,8 @@ class ArticlesController extends AppController
     /**
      * deleteAttributeImage method
      *
-     * @param null $id
-     * @param null $attrId
+     * @param  null  $id
+     * @param  null  $attrId
      *
      * @return \Cake\Http\Response|null
      * @throws \League\Flysystem\FileNotFoundException
@@ -355,7 +363,7 @@ class ArticlesController extends AppController
     {
         $this->request->allowMethod(['delete', 'post']);
         $this->loadModel('Medias');
-        $attr = $this->Articles->ArticleAttributeHeaders->ArticleAttributes->get($attrId);
+        $attr  = $this->Articles->ArticleAttributeHeaders->ArticleAttributes->get($attrId);
         $media = $this->Medias->get($attr->ref_key);
 
         if (
@@ -363,9 +371,9 @@ class ArticlesController extends AppController
             && $this->getFilesystem()->delete($media)
             && $this->Medias->delete($media)
         ) {
-            $this->Flash->success(__('The data has been deleted.'));
+            $this->Flash->success(__('ลบข้อมูลเรียบร้อย'));
         } else {
-            $this->Flash->error(__('The data could not be deleted. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถลบข้อมูลได้ กรุณาลองใหม่'));
         }
 
         return $this->redirect(['action' => 'attribute', $id]);
@@ -374,7 +382,7 @@ class ArticlesController extends AppController
     /**
      * delete method
      *
-     * @param null $id
+     * @param  null  $id
      *
      * @return \Cake\Http\Response|null
      */
@@ -384,9 +392,9 @@ class ArticlesController extends AppController
         $article = $this->Articles->get($id);
 
         if ($this->Articles->delete($article)) {
-            $this->Flash->success(__('The data has been deleted.'));
+            $this->Flash->success(__('ลบข้อมูลเรียบร้อย'));
         } else {
-            $this->Flash->error(__('The data could not be deleted. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถลบข้อมูลได้ กรุณาลองใหม่'));
         }
 
         return $this->redirect(['action' => 'index']);

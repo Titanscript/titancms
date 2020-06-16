@@ -13,26 +13,26 @@
     <li class="nav-item">
         <a class="nav-link" href="<?= $this->Url->build('/manager') ?>">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span><?= __('Dashboard') ?></span>
+            <span><?= __('แผงควบคุม') ?></span>
         </a>
     </li>
 
     <hr class="sidebar-divider">
     <div class="sidebar-heading">
-        <?= __('Content management') ?>
+        <?= __('ตัวจัดการเนื้อหาเว็บ') ?>
     </div>
 
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pages" aria-expanded="true"
            aria-controls="pages">
             <i class="fas fa-fw fa-file"></i>
-            <span><?= __('Pages') ?></span>
+            <span><?= __('หน้าเว็บ') ?></span>
         </a>
         <div id="pages" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header"><?= __('Pages Components:') ?></h6>
+                <h6 class="collapse-header"><?= __('ส่วนประกอบของหน้าเว็บ:') ?></h6>
                 <?= $this->Html->link(
-                    __('Pages'),
+                    __('หน้าเว็บ'),
                     ['controller' => 'Pages', 'action' => 'index'],
                     ['class' => 'collapse-item']
                 ) ?>
@@ -44,33 +44,33 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#products" aria-expanded="true"
            aria-controls="products">
             <i class="fas fa-fw fa-boxes"></i>
-            <span><?= __('Products') ?></span>
+            <span><?= __('ผลิตภัณฑ์') ?></span>
         </a>
         <div id="products" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header"><?= __('Products Components:') ?></h6>
+                <h6 class="collapse-header"><?= __('ส่วนประกอบผลิตภัณฑ์:') ?></h6>
                 <?= $this->Html->link(
-                    __('Products'),
+                    __('ผลิตภัณฑ์'),
                     ['controller' => 'Products', 'action' => 'index'],
                     ['class' => 'collapse-item']
                 ) ?>
                 <?= $this->Html->link(
-                    __('Categories'),
+                    __('หมวดหมู่ผลิตภัณฑ์'),
                     ['controller' => 'ProductCategories', 'action' => 'index'],
                     ['class' => 'collapse-item']
                 ) ?>
                 <?= $this->Html->link(
-                    __('Groups'),
+                    __('กลุ่มผลิตภัณฑ์'),
                     ['controller' => 'ProductGroups', 'action' => 'index'],
                     ['class' => 'collapse-item']
                 ) ?>
                 <?= $this->Html->link(
-                    __('Brands'),
+                    __('แบรนด์ผลิตภัณฑ์'),
                     ['controller' => 'Brands', 'action' => 'index'],
                     ['class' => 'collapse-item']
                 ) ?>
                 <?= $this->Html->link(
-                    __('BrandManufacturers'),
+                    __('ผู้ผลิต'),
                     ['controller' => 'BrandManufacturers', 'action' => 'index'],
                     ['class' => 'collapse-item']
                 ) ?>
@@ -82,18 +82,18 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#blogs" aria-expanded="true"
            aria-controls="blogs">
             <i class="fas fa-fw fa-newspaper"></i>
-            <span><?= __('Articles') ?></span>
+            <span><?= __('บทความ') ?></span>
         </a>
         <div id="blogs" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header"><?= __('Articles Components:') ?></h6>
+                <h6 class="collapse-header"><?= __('ส่วนประกอบบทความ:') ?></h6>
                 <?= $this->Html->link(
-                    __('Articles'),
+                    __('บทความ'),
                     ['controller' => 'Articles', 'action' => 'index'],
                     ['class' => 'collapse-item']
                 ) ?>
                 <?= $this->Html->link(
-                    __('Categories'),
+                    __('หมวดหมู่บทความ'),
                     ['controller' => 'ArticleCategories', 'action' => 'index'],
                     ['class' => 'collapse-item']
                 ) ?>
@@ -103,13 +103,13 @@
 
     <hr class="sidebar-divider">
     <div class="sidebar-heading">
-        <?= __('Medias') ?>
+        <?= __('คลังสื่อ') ?>
     </div>
 
     <li class="nav-item">
         <a class="nav-link" href="<?= $this->Url->build(['controller' => 'Medias', 'action' => 'index']) ?>">
             <i class="fas fa-fw fa-photo-video"></i>
-            <span><?= __('Medias library') ?></span>
+            <span><?= __('คลังสื่อ') ?></span>
         </a>
         <a class="nav-link" href="<?= $this->Url->build(['controller' => 'Medias', 'action' => 'eCatalogs']) ?>">
             <i class="fas fa-file-pdf"></i>
@@ -117,7 +117,7 @@
         </a>
         <a class="nav-link" href="<?= $this->Url->build(['controller' => 'Medias', 'action' => 'imageHeaderSliders']) ?>">
             <i class="fas fa-images"></i>
-            <span><?= __('Image header sliders') ?></span>
+            <span><?= __('สไลด์รูปภาพหน้าหลัก') ?></span>
         </a>
     </li>
 
@@ -129,26 +129,26 @@
     <li class="nav-item">
         <a class="nav-link" href="<?= $this->Url->build(['controller' => 'Clients', 'action' => 'index']) ?>">
             <i class="fas fa-fw fa-users"></i>
-            <span><?= __('Clients management') ?></span>
+            <span><?= __('จัดการรายชื่อลูกค้า') ?></span>
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link" href="<?= $this->Url->build(['controller' => 'Partners', 'action' => 'index']) ?>">
             <i class="fas fa-fw fa-handshake"></i>
-            <span><?= __('Partners management') ?></span>
+            <span><?= __('จัดการรายชื่อพันธมิตร') ?></span>
         </a>
     </li>
 
     <hr class="sidebar-divider">
     <div class="sidebar-heading">
-        <?= __('Settings') ?>
+        <?= __('การตั้งค่า') ?>
     </div>
 
     <li class="nav-item">
         <a class="nav-link" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'index']) ?>">
             <i class="fas fa-fw fa-user-circle"></i>
-            <span><?= __('Users management') ?></span>
+            <span><?= __('จัดการบัญชีผู้ใช้') ?></span>
         </a>
     </li>
 
@@ -158,23 +158,23 @@
            data-toggle="collapse" data-target="#setting" aria-expanded="true"
            aria-controls="setting">
             <i class="fas fa-fw fa-cogs"></i>
-            <span><?= __('Site Settings') ?></span>
+            <span><?= __('การตั้งค่าเว็บไซต์') ?></span>
         </a>
         <div id="setting" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header"><?= __('Setting Components:') ?></h6>
+                <h6 class="collapse-header"><?= __('องค์ประกอบการตั้งค่า:') ?></h6>
                 <?= $this->Html->link(
-                    __('Site'),
+                    __('ไซต์'),
                     ['controller' => 'SiteSettings', 'action' => 'site'],
                     ['class' => 'collapse-item']
                 ) ?>
                 <?= $this->Html->link(
-                    __('Company'),
+                    __('บริษัท'),
                     ['controller' => 'SiteSettings', 'action' => 'company'],
                     ['class' => 'collapse-item']
                 ) ?>
                 <?= $this->Html->link(
-                    __('Social Network'),
+                    __('เครือข่ายสังคม'),
                     ['controller' => 'SiteSettings', 'action' => 'socialNetwork'],
                     ['class' => 'collapse-item']
                 ) ?>
@@ -197,6 +197,4 @@
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
-
 </ul>
-<!-- End of Sidebar -->

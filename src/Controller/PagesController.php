@@ -2,61 +2,67 @@
 
 namespace App\Controller;
 
-
-use Cake\Datasource\ConnectionManager;
+use Cake\I18n\I18n;
+use Cake\Utility\Hash;
+use Cake\Mailer\Mailer;
 
 /**
  * Class PagesController
  *
- * @property \Cake\Datasource\RepositoryInterface|null SiteSettings
+ * @property \App\Model\Table\PagesTable $Pages
  * @package App\Controller
  */
-class PagesController extends AppController
+class
+PagesController extends AppController
 {
+    /**
+     * initialize method
+     * @throws \Exception
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+
+        $this->set('menuActive', '');
+    }
+
+    /**
+     * home method
+     */
     public function home()
     {
         // just page no code
+        $this->set('menuActive', 'home');
     }
 
-    public function about()
+    /**
+     * changeLanguage method
+     *
+     * @param  string  $lang
+     *
+     * @return \Cake\Http\Response|null
+     */
+    public function changeLanguage($lang = 'th_TH')
     {
-        // just page no code
-    }
+        I18n::setLocale($lang);
 
-    public function contactUs()
-    {
-        if ($this->request->is('post')) {
-            // send email
+        setcookie('locale', $lang, time() + (86400 * 30), "/");
+
+        if (!empty($this->request->getQuery('ref'))) {
+            return $this->redirect($this->request->getQuery('ref'));
+        } else {
+            return $this->redirect('/');
         }
     }
 
-    public function quotation()
+    public function testSendEmail($recever = null)
     {
-        if ($this->request->is('post')) {
-            // send email
+        if (!is_null($recever)) {
+            $mailer = new Mailer('default');
+            $mailer->setFrom(['test-send-email@titanscript.com' => 'Test send mail'])
+            ->setTo($recever)
+            ->setSubject('Test send email')
+            ->deliver('Test send email. Do not reply.');
         }
-    }
-
-    public function eCatalogs()
-    {
-        $conn      = ConnectionManager::get('default');
-        $eCatalogs = $conn->execute(
-            "select pdf.id, pdf.title, pdf.path, pdf.alt, pdf.description, pdf.created, image.path as image_cover
-                    from medias as pdf
-                    inner join link_tables on link_tables.pk_key = pdf.id 
-                    inner join medias as image on image.id = link_tables.fk_key
-                    where pdf.using_type = 'e_catalog'"
-        )->fetchAll('assoc');
-
-        foreach ($eCatalogs as &$catalog) {
-            $catalog['link_download'] = 'storage/' . $catalog['path'];
-        }
-
-        $this->set('eCatalogs', $eCatalogs);
-    }
-
-    public function search()
-    {
-        $keyword = $this->request->getQuery('w');
     }
 }

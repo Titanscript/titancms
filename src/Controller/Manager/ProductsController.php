@@ -134,7 +134,7 @@ class ProductsController extends AppController
             $attributeHeader->product_id = $id;
 
             if ($this->Products->ProductAttributeHeaders->save($attributeHeader)) {
-                $this->Flash->success(__('The data has been saved.'));
+                $this->Flash->success(__('ข้อมูลบันทึกเรียบร้อย'));
 
                 return $this->redirect(['action' => 'attribute', $id]);
             }

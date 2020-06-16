@@ -1,10 +1,10 @@
-<h1 class="h3 mb-2 text-gray-800"><?= __('Medias management') ?></h1>
+<h1 class="h3 mb-2 text-gray-800"><?= __('การจัดการคลังสื่อ') ?></h1>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary"><?= __('Media list') ?></h6>
+        <h6 class="m-0 font-weight-bold text-primary"><?= __('รายการสื่อ') ?></h6>
         <a href="<?= $this->Url->build(['action' => 'add']) ?>">
-            <i class="fas fa-plus fa-sm fa-fw text-primary"></i> <?= __('Add') ?>
+            <i class="fas fa-plus fa-sm fa-fw text-primary"></i> <?= __('เพิ่ม') ?>
         </a>
     </div>
     <div class="card-body">
@@ -13,37 +13,47 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th><?= __('Image') ?></th>
-                    <th><?= __('Title') ?></th>
-                    <th><?= __('Last modified') ?></th>
-                    <th><?= __('Action') ?></th>
+                    <th><?= __('สื่อ') ?></th>
+                    <th><?= __('รายละเอียด') ?></th>
+                    <th><?= __('แก้ไขล่าสุด') ?></th>
+                    <th><?= __('เมนู') ?></th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php $order = 1 ?>
-                <?php foreach ($medias as $media): ?>
+                <?php
+                $order = 1 ?>
+                <?php
+                foreach ($medias as $media): ?>
                     <tr>
                         <td><?= $order++ ?></td>
-                        <td><?= $this->Html->image(
-                                $media->path, ['style' => 'height: 100px', 'pathPrefix' => 'storage/']
+                        <td>
+                            <?= $this->Html->image(
+                                $media->path,
+                                ['style' => 'height: 100px', 'pathPrefix' => 'storage/']
                             ) ?>
                         </td>
-                        <td><?= $media->filename ?></td>
+                        <td>
+                            File name: <?= $media->filename ?><br/>
+                            Path: <?= $media->path ?><br/>
+                            description: <?= $media->descirption ?><br/>
+                            alt: <?= $media->alt ?><br/>
+                        </td>
                         <td><?= $this->Time->format($media->modified) ?></td>
                         <td>
                             <?= $this->Html->link(
-                                __('Edit'),
+                                __('แก้ไข'),
                                 ['action' => 'edit', $media->id],
                                 ['class' => 'mr-3']
                             ) ?>
                             <?= $this->Form->postLink(
-                                __('Delete'),
+                                __('ลบ'),
                                 ['action' => 'delete', $media->id],
                                 ['class' => 'text-danger']
                             ) ?>
                         </td>
                     </tr>
-                <?php endforeach; ?>
+                <?php
+                endforeach; ?>
                 </tbody>
             </table>
         </div>

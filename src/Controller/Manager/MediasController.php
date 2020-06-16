@@ -37,23 +37,23 @@ class MediasController extends AppController
         $media = $this->Medias->newEmptyEntity();
 
         if ($this->request->is('post')) {
-            $data = $this->request->getData();
+            $data       = $this->request->getData();
             $fileEntity = $this->getFilesystem()->upload(
                 $this->request->getData('image'),
                 [
                     'formatter' => 'Entity',
-                    'data' => $media
+                    'data'      => $media,
                 ]
             );
-            $fileEntity = $this->Medias->patchEntity($fileEntity, $data);
+            $fileEntity             = $this->Medias->patchEntity($fileEntity, $data);
             $fileEntity->using_type = 'images';
             if ($this->Medias->save($fileEntity)) {
-                $this->Flash->success(__('The data has been saved.'));
+                $this->Flash->success(__('บันทึกข้อมูลเรียบร้อยแล้ว'));
 
                 return $this->redirect(['action' => 'index']);
             }
 
-            $this->Flash->error(__('The data could not be saved. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
         }
 
         $this->set('media', $media);
@@ -71,7 +71,7 @@ class MediasController extends AppController
         $media = $this->Medias->get($id);
 
         if ($this->request->is(['post', 'put', 'patch'])) {
-            $data = $this->request->getData();
+            $data  = $this->request->getData();
             $media = $this->Medias->patchEntity($media, $data);
 
             if ($this->Medias->save($media)) {
@@ -80,7 +80,7 @@ class MediasController extends AppController
                 return $this->redirect(['action' => 'index']);
             }
 
-            $this->Flash->error(__('The data could not be saved. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
         }
 
         $this->set('media', $media);
@@ -119,7 +119,7 @@ class MediasController extends AppController
         $eCatalogs = $conn->execute(
             "select pdf.id, pdf.title, pdf.modified, image.path
                     from medias as pdf
-                    inner join link_tables on link_tables.pk_key = pdf.id 
+                    inner join link_tables on link_tables.pk_key = pdf.id
                     inner join medias as image on image.id = link_tables.fk_key
                     where pdf.using_type = 'e_catalog'"
         )->fetchAll('assoc');
@@ -143,8 +143,8 @@ class MediasController extends AppController
             $conn->begin();
 
             // save PDF
-            $data                   = $this->request->getData();
-            $fileEntity             = $this->getFilesystem()->upload(
+            $data       = $this->request->getData();
+            $fileEntity = $this->getFilesystem()->upload(
                 $this->request->getData('pdf'),
                 [
                     'formatter' => 'Entity',
@@ -154,15 +154,15 @@ class MediasController extends AppController
             $fileEntity             = $this->Medias->patchEntity($fileEntity, $data);
             $fileEntity->using_type = 'e_catalog';
             if (!$this->Medias->save($fileEntity)) {
-                $this->Flash->error(__('The data could not be saved. Please try again.'));
+                $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
                 $conn->rollback();
 
                 return $this->redirect(['action' => 'eCatalogAdd']);
             }
 
             // save Image
-            $image                   = $this->Medias->newEmptyEntity();
-            $imageEntity             = $this->getFilesystem()->upload(
+            $image       = $this->Medias->newEmptyEntity();
+            $imageEntity = $this->getFilesystem()->upload(
                 $this->request->getData('image'),
                 [
                     'formatter' => 'Entity',
@@ -171,7 +171,7 @@ class MediasController extends AppController
             );
             $imageEntity->using_type = 'image_e_catalog';
             if (!$this->Medias->save($imageEntity)) {
-                $this->Flash->error(__('The data could not be saved. Please try again.'));
+                $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
                 $conn->rollback();
 
                 return $this->redirect(['action' => 'eCatalogAdd']);
@@ -193,7 +193,7 @@ class MediasController extends AppController
 
                 return $this->redirect(['action' => 'eCatalogs']);
             } else {
-                $this->Flash->error(__('The data could not be saved. Please try again.'));
+                $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
                 $conn->rollback();
 
                 return $this->redirect(['action' => 'eCatalogAdd']);
@@ -223,7 +223,7 @@ class MediasController extends AppController
                 return $this->redirect(['action' => 'eCatalogs']);
             }
 
-            $this->Flash->error(__('The data could not be saved. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
         }
 
         $this->set('catalog', $catalog);
@@ -266,7 +266,8 @@ class MediasController extends AppController
     public function imageHeaderSliders()
     {
         $sliders = $this->Medias->find()
-            ->where(['using_type' => 'image_header']);
+            ->where(['using_type' => 'image_header'])
+            ->orderAsc('order_index');
 
         $this->set('sliders', $sliders);
     }
@@ -283,8 +284,8 @@ class MediasController extends AppController
         $slider = $this->Medias->newEmptyEntity();
 
         if ($this->request->is('post')) {
-            $data                   = $this->request->getData();
-            $fileEntity             = $this->getFilesystem()->upload(
+            $data       = $this->request->getData();
+            $fileEntity = $this->getFilesystem()->upload(
                 $this->request->getData('image'),
                 [
                     'formatter' => 'Entity',
@@ -300,7 +301,7 @@ class MediasController extends AppController
                 return $this->redirect(['action' => 'imageHeaderSliders']);
             }
 
-            $this->Flash->error(__('The data could not be saved. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
         }
 
         $this->set('slider', $slider);
@@ -322,12 +323,12 @@ class MediasController extends AppController
             $slider = $this->Medias->patchEntity($slider, $data);
 
             if ($this->Medias->save($slider)) {
-                $this->Flash->success(__('The data has been save.'));
+                $this->Flash->success(__('บันทึกข้อมูลเรียบร้อยแล้ว'));
 
                 return $this->redirect(['action' => 'imageHeaderSliders']);
             }
 
-            $this->Flash->error(__('The data could not be saved. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
         }
 
         $this->set('slider', $slider);
@@ -343,7 +344,7 @@ class MediasController extends AppController
      */
     public function imageHeaderSliderDelete($id = null)
     {
-        $this->request->allowMethod(['delete', 'data']);
+        $this->request->allowMethod(['delete', 'post']);
         $slide = $this->Medias->get($id);
 
         if ($this->getFilesystem()->delete($slide) && $this->Medias->delete($slide)) {

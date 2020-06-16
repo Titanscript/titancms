@@ -30,7 +30,7 @@ class ClientsController extends AppController
 
     public function index()
     {
-        $clients = $this->Clients->find()->contain();
+        $clients = $this->Clients->find()->contain('Medias');
 
         $this->set(compact('clients'));
     }

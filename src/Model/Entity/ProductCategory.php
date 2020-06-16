@@ -19,9 +19,11 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  * @property string|null $description
+ * @property string|null $body
  *
  * @property \App\Model\Entity\ProductCategory $parent_product_category
  * @property \App\Model\Entity\ProductCategory[] $child_product_categories
+ * @property \App\Model\Entity\Product[] $products
  */
 class ProductCategory extends Entity
 {
@@ -45,7 +47,9 @@ class ProductCategory extends Entity
         'created' => true,
         'modified' => true,
         'description' => true,
+        'body' => true,
         'parent_product_category' => true,
         'child_product_categories' => true,
+        'products' => true,
     ];
 }

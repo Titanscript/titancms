@@ -1,10 +1,10 @@
-<h1 class="h3 mb-2 text-gray-800"><?= __('Partners management') ?></h1>
+<h1 class="h3 mb-2 text-gray-800"><?= __('การจัดการพันธมิตร') ?></h1>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary"><?= __('Partners list') ?></h6>
+        <h6 class="m-0 font-weight-bold text-primary"><?= __('รายการพันธมิตร') ?></h6>
         <a href="<?= $this->Url->build(['action' => 'add']) ?>">
-            <i class="fas fa-plus fa-sm fa-fw text-primary"></i> <?= __('Add') ?>
+            <i class="fas fa-plus fa-sm fa-fw text-primary"></i> <?= __('เพิ่ม') ?>
         </a>
     </div>
     <div class="card-body">
@@ -13,15 +13,17 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th><?= __('Partner') ?></th>
-                    <th><?= __('Image') ?></th>
-                    <th><?= __('Last modified') ?></th>
-                    <th><?= __('Actions') ?></th>
+                    <th><?= __('พันธมิตร') ?></th>
+                    <th><?= __('โลโก้') ?></th>
+                    <th><?= __('แก้ไขล่าสุด') ?></th>
+                    <th><?= __('เมนู') ?></th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php $order = 1 ?>
-                <?php foreach ($partners as $partner): ?>
+                <?php
+                $order = 1 ?>
+                <?php
+                foreach ($partners as $partner): ?>
                     <tr>
                         <td><?= $order++ ?></td>
                         <td><?= $partner->name ?></td>
@@ -29,18 +31,19 @@
                         <td><?= $this->Time->format($partner->modified) ?></td>
                         <td>
                             <?= $this->Html->link(
-                                __('Edit'),
+                                __('แก้ไข'),
                                 ['action' => 'edit', $partner->id],
                                 ['class' => 'mr-3']
                             ) ?>
                             <?= $this->Form->postLink(
-                                __('Delete'),
+                                __('ลบ'),
                                 ['action' => 'delete', $partner->id],
-                                ['class' => 'text-danger', 'confirm' => __('Do you want to deleted this data?')]
+                                ['class' => 'text-danger', 'confirm' => __('คุณต้องการลบข้อมูลนี้ใช่หรือไม่?')]
                             ) ?>
                         </td>
                     </tr>
-                <?php endforeach; ?>
+                <?php
+                endforeach; ?>
                 </tbody>
             </table>
         </div>

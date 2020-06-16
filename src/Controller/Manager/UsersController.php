@@ -45,14 +45,14 @@ class UsersController extends AppController
                 $user->is_superadmin = 0;
 
                 if ($this->Users->save($user)) {
-                    $this->Flash->success(__('The data has been saved.'));
+                    $this->Flash->success(__('บันทึกข้อมูลเรียบร้อย'));
 
                     return $this->redirect(['action' => 'index']);
                 }
 
-                $this->Flash->error(__('The data could not be saved. Please try again.'));
+                $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
             } else {
-                $this->Flash->error(__('The password dose not matched. Please try again.'));
+                $this->Flash->error(__('รหัสผ่านไม่ตรงกันกรุณาลองใหม่'));
             }
         }
 
@@ -74,12 +74,12 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $this->request->getData());
 
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('The data has been saved.'));
+                $this->Flash->success(__('บันทึกข้อมูลเรียบร้อย'));
 
                 return $this->redirect(['action' => 'index']);
             }
 
-            $this->Flash->error(__('The data could not be saved. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
         }
 
         $this->set(compact('user'));
@@ -96,9 +96,9 @@ class UsersController extends AppController
         $user = $this->Users->get($id);
 
         if ($this->Users->delete($user)) {
-            $this->Flash->success(__('The data has been deleted.'));
+            $this->Flash->success(__('ลบข้อมูลเรียบร้อย'));
         } else {
-            $this->Flash->error(__('The data could not be deleted. Please try again.'));
+            $this->Flash->error(__('ไม่สามารถลบข้อมูลได้ กรุณาลองใหม่'));
         }
 
         $this->redirect(['action' => 'index']);
@@ -121,12 +121,12 @@ class UsersController extends AppController
                 $user->password = $data['new_password'];
 
                 if ($this->Users->save($user)) {
-                    $this->Flash->success(__('The data has been saved.'));
+                    $this->Flash->success(__('บันทึกข้อมูลเรียบร้อย'));
 
                     return $this->redirect(['action' => 'edit', $id]);
                 }
 
-                $this->Flash->error(__('The data could not be saved. Please try again.'));
+                $this->Flash->error(__('ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่'));
             }
         }
 
@@ -150,7 +150,7 @@ class UsersController extends AppController
             return $this->redirect($target);
         }
         if ($this->request->is('post') && !$result->isValid()) {
-            $this->Flash->error('Invalid username or password');
+            $this->Flash->error('บัญชีผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
         }
     }
 

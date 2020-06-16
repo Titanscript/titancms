@@ -49,6 +49,23 @@ class ProductsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior(
+            'Translate',
+            [
+                'fields'                 => [
+                    'name',
+                    'slug',
+                    'subname',
+                    'description',
+                    'unit_of_measure',
+                    'pack_size',
+                    'dimension_group',
+                    'warrant_terms',
+                ],
+                'defaultLocale'          => 'th_TH',
+                'allowEmptyTranslations' => true,
+            ]
+        );
 
         $this->belongsTo('ProductCategories', [
             'foreignKey' => 'product_category_id',

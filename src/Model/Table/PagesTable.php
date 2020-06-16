@@ -1,5 +1,6 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
 
 namespace App\Model\Table;
 
@@ -10,6 +11,8 @@ use Cake\Validation\Validator;
 
 /**
  * Pages Model
+ *
+ * @property \App\Model\Table\PageAttributeHeadersTable&\Cake\ORM\Association\HasMany $PageAttributeHeaders
  *
  * @method \App\Model\Entity\Page newEmptyEntity()
  * @method \App\Model\Entity\Page newEntity(array $data, array $options = [])
@@ -32,7 +35,8 @@ class PagesTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param  array  $config  The configuration for the Table.
+     *
      * @return void
      */
     public function initialize(array $config): void
@@ -44,12 +48,28 @@ class PagesTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior(
+            'Translate',
+            [
+                'fields'                 => ['title', 'slug', 'intro', 'body'],
+                'defaultLocale'          => 'th_TH',
+                'allowEmptyTranslations' => true,
+            ]
+        );
+
+        $this->hasMany(
+            'PageAttributeHeaders',
+            [
+                'foreignKey' => 'page_id',
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @param  \Cake\Validation\Validator  $validator  Validator instance.
+     *
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator

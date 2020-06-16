@@ -1,24 +1,30 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
 
 namespace App\Model\Entity;
 
+use Cake\ORM\Behavior\Translate\TranslateTrait;
 use Cake\ORM\Entity;
 
 /**
  * Page Entity
  *
- * @property string $id
- * @property string|null $title
- * @property string|null $slug
- * @property string|null $intro
- * @property string|null $body
- * @property string|null $status
- * @property \Cake\I18n\FrozenTime|null $created
- * @property \Cake\I18n\FrozenTime|null $modified
+ * @property string                                  $id
+ * @property string|null                             $title
+ * @property string|null                             $slug
+ * @property string|null                             $intro
+ * @property string|null                             $body
+ * @property string|null                             $status
+ * @property \Cake\I18n\FrozenTime|null              $created
+ * @property \Cake\I18n\FrozenTime|null              $modified
+ *
+ * @property \App\Model\Entity\PageAttributeHeader[] $page_attribute_headers
  */
 class Page extends Entity
 {
+    use TranslateTrait;
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -29,12 +35,14 @@ class Page extends Entity
      * @var array
      */
     protected $_accessible = [
-        'title' => true,
-        'slug' => true,
-        'intro' => true,
-        'body' => true,
-        'status' => true,
-        'created' => true,
-        'modified' => true,
+        'title'                  => true,
+        'slug'                   => true,
+        'intro'                  => true,
+        'body'                   => true,
+        'status'                 => true,
+        'created'                => true,
+        'modified'               => true,
+        'page_attribute_headers' => true,
+        '_translations'          => true,
     ];
 }

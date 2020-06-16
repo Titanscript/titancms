@@ -8,7 +8,9 @@
             </li>
             <li class="nav-item">
                 <?= $this->Html->link(
-                    __('Attribute'), ['action' => 'attribute', $product->id], ['class' => 'nav-link active']
+                    __('Attribute'),
+                    ['action' => 'attribute', $product->id],
+                    ['class' => 'nav-link active']
                 ) ?>
             </li>
         </ul>
@@ -16,22 +18,22 @@
     <div class="card-body">
         <h1 class="h3 mb-2 text-gray-800"><?= __('Attribute: New') ?></h1>
         <?= $this->Form->create($attribute) ?>
-        <?php $this->Form->setTemplates(
+        <?php
+        $this->Form->setTemplates(
             ['inputContainer' => '<div class="form-group input {{type}}{{required}}">{{content}}</div>']
         ) ?>
         <div class="row">
             <div class="col">
-                <?= $this->Form->control('name', ['class' => 'form-control']) ?>
-                <?= $this->Form->control('value', ['class' => 'form-control']) ?>
-                <?= $this->Form->control('ref_table', ['class' => 'form-control']) ?>
-                <?= $this->Form->control('ref_value', ['class' => 'form-control']) ?>
+                <?= $this->Form->control('name', ['class' => 'form-control', 'label' => __('ชื่อ')]) ?>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <?= $this->Form->button(__('Save'), ['class' => 'btn btn-success']) ?>
+                <?= $this->Form->button(__('บันทึก'), ['class' => 'btn btn-success']) ?>
                 <?= $this->Html->link(
-                    __('Back'), ['action' => 'attribute', $product->id], ['class' => 'btn btn-link text-muted']
+                    __('ยกเลิก'),
+                    ['action' => 'attribute', $product->id],
+                    ['class' => 'btn btn-link text-muted']
                 ) ?>
             </div>
         </div>

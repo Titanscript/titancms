@@ -1,10 +1,10 @@
-<h1 class="h3 mb-2 text-gray-800"><?= __('Article categories management') ?></h1>
+<h1 class="h3 mb-2 text-gray-800"><?= __('การจัดการหมวดหมู่บทความ') ?></h1>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary"><?= __('Article categories list') ?></h6>
+        <h6 class="m-0 font-weight-bold text-primary"><?= __('รายการหมวดหมู่บทความ') ?></h6>
         <a href="<?= $this->Url->build(['action' => 'add']) ?>">
-            <i class="fas fa-plus fa-sm fa-fw text-primary"></i> <?= __('Add') ?>
+            <i class="fas fa-plus fa-sm fa-fw text-primary"></i> <?= __('เพิ่ม') ?>
         </a>
     </div>
     <div class="card-body">
@@ -14,9 +14,9 @@
                 <tr>
                     <th>#</th>
                     <th><?= __('Parent') ?></th>
-                    <th><?= __('Category') ?></th>
-                    <th><?= __('Last modified') ?></th>
-                    <th><?= __('Actions') ?></th>
+                    <th><?= __('หมวดหมู่') ?></th>
+                    <th><?= __('แก้ไขล่าสุด') ?></th>
+                    <th><?= __('เมนู') ?></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,16 +31,16 @@
                         <td><?= $this->Time->format($articleCategory->modified) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(
-                                __('Edit'),
+                                __('แก้ไข'),
                                 ['action' => 'edit', $articleCategory->id],
                                 ['class' => 'mr-3']
                             ) ?>
                             <?= $this->Form->postLink(
-                                __('Delete'),
+                                __('ลบ'),
                                 ['action' => 'delete', $articleCategory->id],
                                 [
                                     'class'   => 'text-danger',
-                                    'confirm' => __('Are you sure you want to delete this data?'),
+                                    'confirm' => __('คุณต้องการลบข้อมูลนี้ใช่หรือไม่?'),
                                 ]
                             ) ?>
                         </td>
