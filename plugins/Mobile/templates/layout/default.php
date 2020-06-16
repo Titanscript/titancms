@@ -9,13 +9,12 @@
 
     <title><?= $this->fetch('title') ?></title>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
-
-    <?= $this->Html->css([
-        '../vendor/bootstrap-4.4.1/css/bootstrap.min.css',
-
-    ]); ?>
+    <?= $this->Html->css(
+        [
+            '../vendor/bootstrap-4.5.0/css/bootstrap.min.css',
+            'template-mobile.css',
+        ]
+    ); ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -23,35 +22,18 @@
 </head>
 
 <body>
-    <main class="main">
-        <?= $this->element('header') ?>
-        <?= $this->element('masterslide') ?>
-        <div class="container">
-            <?= $this->Flash->render() ?>
-            <?= $this->fetch('content') ?>
-        </div>
-    </main>
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    ...
-                </div>
-                <div class="col">
-                    ...
-                </div>
-                <div class="col">
-                    ...
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <?= $this->Html->script([
-        '../vendor/bootstrap-4.4.1/js/bootstrap.min.js'
-    ]) ?>
+<main>
+    <?= $this->element('header') ?>
+    <?= $this->Flash->render() ?>
+    <?= $this->fetch('content') ?>
+    <?= $this->element('footer') ?>
+</main>
+<?= $this->Html->script(
+    [
+        '../vendor/bootstrap-4.5.0/js/bootstrap.min.js',
+        'template-mobile.js',
+    ]
+) ?>
 </body>
 
 </html>
